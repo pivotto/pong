@@ -65,6 +65,14 @@ def inteligenciaArtificial(bola, bolaDirX, paleta2):
             paleta2.y -=1
     return paleta2
 
+#Verifica a colisão da bola com a paleta1 ou paleta2    
+def verificaColisaoBola(bola, paleta1, paleta2, bolaDirX):
+    if bolaDirX == -1 and paleta1.right == bola.left and paleta1.top < bola.top and paleta1.bottom > bola.bottom:
+        return -1
+    elif bolaDirX == 1 and paleta2.left == bola.right and paleta2.top < bola.top and paleta2.bottom > bola.bottom:
+        return -1
+    else: return 1
+
 #Função principal
 def main():
     pygame.init()
@@ -114,6 +122,7 @@ def main():
       
       bola = moveBola(bola, bolaDirX, bolaDirY)
       bolaDirX, bolaDirY = verificaColisao(bola, bolaDirX, bolaDirY)
+      bolaDirX = bolaDirX * verificaColisaoBola(bola, paleta1, paleta2, bolaDirX)
       paleta2 = inteligenciaArtificial (bola, bolaDirX, paleta2)
 
       pygame.display.update()
