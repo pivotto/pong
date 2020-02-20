@@ -45,6 +45,15 @@ def moveBola(bola, bolaDirX, bolaDirY):
     bola.x += bolaDirX
     bola.y += bolaDirY
     return bola
+
+# Verifica por colisão com as bordas
+# Retorna uma nova posição caso exista colisão
+def verificaColisao(bola, bolaDirX, bolaDirY):
+    if bola.top == (LARGURA_LINHA) or bola.bottom == (ALTURA_TELA - LARGURA_LINHA):
+            bolaDirY = bolaDirY * -1
+    if bola.left == (LARGURA_LINHA) or bola.right == (LARGURA_TELA - LARGURA_LINHA):
+            bolaDirX = bolaDirX * -1
+    return bolaDirX, bolaDirY
     
 #Função principal
 def main():
@@ -89,6 +98,7 @@ def main():
       desenhaBola(bola)
       
       bola = moveBola(bola, bolaDirX, bolaDirY)
+      bolaDirX, bolaDirY = verificaColisao(bola, bolaDirX, bolaDirY)
 
       pygame.display.update()
       FPSCLOCK.tick(FPS)
