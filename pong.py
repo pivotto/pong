@@ -55,6 +55,7 @@ def verificaColisao(bola, bolaDirX, bolaDirY):
             bolaDirX = bolaDirX * -1
     return bolaDirX, bolaDirY
     
+     
 #Função principal
 def main():
     pygame.init()
@@ -85,12 +86,17 @@ def main():
     desenhaPaleta(paleta1)
     desenhaPaleta(paleta2)
     desenhaBola(bola)
+    
+    pygame.mouse.set_visible(0)
 
     while True: #Loop principal
       for event in pygame.event.get():
-          if event.type == QUIT:
-              pygame.quit()
-              sys.exit()
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+        elif event.type == MOUSEMOTION:
+            mouseX, mouseY = event.pos
+            paleta1.y = mouseY
 
       desenhaArena()
       desenhaPaleta(paleta1)
