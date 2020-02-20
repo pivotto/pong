@@ -72,10 +72,40 @@ def verificaColisaoBola(bola, paleta1, paleta2, bolaDirX):
     elif bolaDirX == 1 and paleta2.left == bola.right and paleta2.top < bola.top and paleta2.bottom > bola.bottom:
         return -1
     else: return 1
+    
+#Verifica se o jogador fez ponto e retorna o novo valor do placar
+def verificaPlacar(paleta1, bola, placar, bolaDirX):
+    #zera a contagem se a bola acerta a borda do jogador
+    if bola.left == LARGURA_LINHA: 
+        return 0
+    #1 ponto por acertar a bola
+    elif bolaDirX == 1 and paleta1.right == bola.left and paleta1.top < bola.top and paleta1.bottom > bola.bottom:
+        placar += 1
+        return placar
+    #10 pontos se vender a paleta do computador
+    elif bola.right == LARGURA_TELA - LARGURA_LINHA:
+        placar += 10
+        return placar
+    #retorna o mesmo placar se nenhum ponto foi adicionado
+    else:
+        return placar
+
+#Desenha o placar na tela
+def desenhaPlacar(placar):
+    resultadoSurf = BASICFONT.render('Placar = %s' %(placar), True, BRANCO)
+    resultadoRect = resultadoSurf.get_rect()
+    resultadoRect.topleft = (LARGURA_TELA - 150, 25)
+    DISPLAY.blit(resultadoSurf, resultadoRect)
 
 #Função principal
 def main():
     pygame.init()
+    
+    ##Informações para a fonte da letra
+    global BASICFONT, BASICFONTSIZE
+    BASICFONTSIZE = 20
+    BASICFONT = pygame.font.Font('freesansbold.ttf', BASICFONTSIZE)
+    
     global DISPLAY
  
     FPSCLOCK = pygame.time.Clock()
@@ -88,6 +118,7 @@ def main():
     bolaY = ALTURA_TELA//2 - LARGURA_LINHA//2
     jogadorUm_posicao = (ALTURA_TELA - PALETA_TAMANHO) //2
     jogadorDois_posicao = (ALTURA_TELA - PALETA_TAMANHO) //2
+    placar = 0
     
     #altera a posição da bola
     bolaDirX = -1
@@ -124,6 +155,9 @@ def main():
       bolaDirX, bolaDirY = verificaColisao(bola, bolaDirX, bolaDirY)
       bolaDirX = bolaDirX * verificaColisaoBola(bola, paleta1, paleta2, bolaDirX)
       paleta2 = inteligenciaArtificial (bola, bolaDirX, paleta2)
+      
+      placar = verificaPlacar(paleta1, bola, placar, bolaDirX)
+      desenhaPlacar(placar)
 
       pygame.display.update()
       FPSCLOCK.tick(FPS)
