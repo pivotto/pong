@@ -40,6 +40,12 @@ def desenhaPaleta(paleta):
 def desenhaBola(bola):
     pygame.draw.rect(DISPLAY, BRANCO, bola)
     
+#altera a direção da bola e retorna ela
+def moveBola(bola, bolaDirX, bolaDirY):
+    bola.x += bolaDirX
+    bola.y += bolaDirY
+    return bola
+    
 #Função principal
 def main():
     pygame.init()
@@ -55,6 +61,10 @@ def main():
     bolaY = ALTURA_TELA//2 - LARGURA_LINHA//2
     jogadorUm_posicao = (ALTURA_TELA - PALETA_TAMANHO) //2
     jogadorDois_posicao = (ALTURA_TELA - PALETA_TAMANHO) //2
+    
+    #altera a posição da bola
+    bolaDirX = -1
+    bolaDirY = -1
     
     #Criando os retangulos para a bola e paletas.
     paleta1 = pygame.Rect(PALETAOFFSET,jogadorUm_posicao,       LARGURA_LINHA,PALETA_TAMANHO)
@@ -77,6 +87,8 @@ def main():
       desenhaPaleta(paleta1)
       desenhaPaleta(paleta2)
       desenhaBola(bola)
+      
+      bola = moveBola(bola, bolaDirX, bolaDirY)
 
       pygame.display.update()
       FPSCLOCK.tick(FPS)
