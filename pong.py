@@ -55,7 +55,16 @@ def verificaColisao(bola, bolaDirX, bolaDirY):
             bolaDirX = bolaDirX * -1
     return bolaDirX, bolaDirY
     
-     
+
+def inteligenciaArtificial(bola, bolaDirX, paleta2):
+    # Movimentar a paleta quando a bola vem em direção da paleta
+    if bolaDirX == 1:
+        if paleta2.centery < bola.centery:
+            paleta2.y += 1
+        else:
+            paleta2.y -=1
+    return paleta2
+
 #Função principal
 def main():
     pygame.init()
@@ -105,6 +114,7 @@ def main():
       
       bola = moveBola(bola, bolaDirX, bolaDirY)
       bolaDirX, bolaDirY = verificaColisao(bola, bolaDirX, bolaDirY)
+      paleta2 = inteligenciaArtificial (bola, bolaDirX, paleta2)
 
       pygame.display.update()
       FPSCLOCK.tick(FPS)
